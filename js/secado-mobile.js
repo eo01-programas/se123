@@ -4,7 +4,7 @@
         { keywords: ['PUÑOS', 'PUÑO'], label: 'Puño' },
         { keywords: ['PRETINAS', 'PRETINA'], label: 'Pretina' }
     ];
-    const RELATED_PARTIDA_RANGE = 100;
+    const RELATED_PARTIDA_RANGE = 10;
 
     const state = {
         records: [],
@@ -143,6 +143,7 @@
 
         const exactIds = new Set(exactMatches.map((r) => String(r.id_registro || '')));
         const familyLabel = matchedFamily.label;
+        const anchorColor = String(anchor.color || '').trim().toUpperCase();
 
         const related = state.records
             .filter((r) => {
@@ -150,6 +151,7 @@
                 if (exactIds.has(String(r.id_registro || ''))) return false;
                 const rFamily = detectKeywordFamily(r.articulo);
                 if (!rFamily || rFamily.label !== familyLabel) return false;
+                if (String(r.color || '').trim().toUpperCase() !== anchorColor) return false;
                 const rPartida = parseInt(String(r.partida || '').trim(), 10);
                 if (!Number.isFinite(rPartida)) return false;
                 return Math.abs(rPartida - anchorPartida) <= RELATED_PARTIDA_RANGE;
