@@ -376,7 +376,8 @@
     async function handleInicio() {
         const els = getElements();
         const operario = String(els.operarioInput ? els.operarioInput.value : '').trim().toUpperCase();
-        const turno = String(els.turnoInput.value || calculateTurno()).trim() || calculateTurno();
+        const turno = calculateTurno();
+        els.turnoInput.value = turno;
         const ahora = TintoreriaUtils.formatProcessDateTime(new Date());
 
         if (!operario) {
